@@ -3,6 +3,7 @@ This repository contains code for the Postdoctoral Fellowship project at Factual
 
 ## Table of contents
 - [Introduction](#Introduction)
+- [Method](#Method)
 - [Dependencies](#dependencies)
 - [Run models for paper metrics](#run-models-for-paper-metrics)
 - [Dataset](#dataset)
@@ -25,6 +26,13 @@ State of art NLP models are based on opaque neural network models which  causes 
 
 In this work, we propose our own method for scientific verifications. A three-step pipeline was propsed. In the first step, abstracts relating to an input claim are retrieved from the CORD-19 corpus. In the second step, rationale sentences are selected using semantic search. In the final step, labels are generated indicating if the abstracts support, refute or have not enough information to determine the claim. This last step is more like NLI. 
 
+## Method
+
+- Abstract retrieval: this component queries the covidex searching engine with the claim and retrieves the k most similar abstracts to the claim. In this process, term frequency-inverse document frequency (TF-IDF) similarity scores are calculated and abstracts with the highest scores are extracted.
+- Rationale selection: this step extracts the rationale sentences (top k) by comparing the claim with each sentence of an abstract. In this paper, we will restrict the comparisons to the abstracts. Yet, owing to the low computational cost of semantic search, comparing every sentence of a document (not just the abstract) is possible and could be accomplished in a very short time (which would be our future work).
+- Label prediction: this step judges whether the document supports, refutes or contains no information for the claim based on the extracted rationale sentences from the previous step. 
+
+![image](https://github.com/jadecranberry/NLI_project/assets/32283596/9bfd6685-5cd0-40ed-a12b-fb5d493b0226)
 
 
 ## Dependencies
