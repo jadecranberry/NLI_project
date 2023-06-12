@@ -6,9 +6,7 @@ This repository contains code for the Postdoctoral Fellowship project at Factual
 - [Method](#Method)
 - [Dependencies](#dependencies)
 - [Download pre-trained models](#download-pre-trained-models)
-- [Training scripts](#training-scripts)
 - [Verify claims about COVID-19](#verify-claims-about-covid-19)
-- [Citation](#citation)
 - [Contact](#contact)
 
 
@@ -60,45 +58,30 @@ You can download the models using the script:
 The script checks to make sure the downloaded model doesn't already exist before starting new downloads.
 
 
-
-## Training scripts
-
-See [training.md](doc/training.md).
-
 ## Verify claims about COVID-19
 
-While the project [website](https://scifact.apps.allenai.org) features a COVID-19 fact-checking demo, it is not configurable and uses a "light-weight" version of VeriSci based on [DistilBERT](https://arxiv.org/abs/1910.01108). We provide a more configurable fact-checking script that uses the full model. Like the web demo, it uses [covidex](https://covidex.ai) for document retrieval.  Usage is as follows:
+it uses [covidex](https://covidex.ai) for document retrieval.  Usage is as follows:
 
 ```shell
 python script/verify_covid.py [claim-text] [report-file] [optional-arguments].
 ```
+For example, if we want to use roberta large as the sentence encoder we can do
+```shell
+python script/verify_covid.py "24-37% of patients who test positive for COVID-19 have underlying comorbidities" results/covid-report --output_format="markdown" --rationale_selection_method=topk --verbose --keep_nei
+```
+If we want to use Allenai's Spector as the sentence encoder we can do
+```shell
+python verify_covid.py "Viable SARS-CoV-2 viral particles can remain on steel for 13 hours" results/FH-Specter-36 --output_format="markdown" --rationale_selection_method=topk --verbose --keep_nei --rationale_model "allenai-specter" 
+```
 
+If we want to use the universal sentence encoder we can do
+```shell
+python verify_covid.py "24-37% of patients who test positive for COVID-19 have underlying comorbidities" results/FH-USE-3-top5 --output_format="markdown" --rationale_selection_method=topk --verbose --keep_nei --rationale_model "universal-sentence-encoder-large/5" --tf=True
+```
 For a description of the optional arguments, run `python script/verify_covid.py -h`. The script generates either a `pdf` or `markdown` report. The `pdf` version requires [pandoc](https://pandoc.org) and [wkhtmltopdf](https://wkhtmltopdf.org), both of which can be installed with `conda`. A usage example might be:
 
-```shell
-python script/verify_covid.py \
-  "Coronavirus droplets can remain airborne for hours" \
-  results/covid-report \
-  --n_documents=100 \
-  --rationale_selection_method=threshold \
-  --rationale_threshold=0.2 \
-  --verbose \
-  --full_abstract
-```
-
-The 36 claims COVID claims mentions in the paper can be found at [covid/claims.txt](covid/claims.txt).
-
-## Citation
-
-```bibtex
-@inproceedings{Wadden2020FactOF,
-  title={Fact or Fiction: Verifying Scientific Claims},
-  author={David Wadden and Shanchuan Lin and Kyle Lo and Lucy Lu Wang and Madeleine van Zuylen and Arman Cohan and Hannaneh Hajishirzi},
-  booktitle={EMNLP},
-  year={2020},
-}
-```
+The 36 claims COVID claims can be found at [covid/claims.txt](covid/claims.txt).
 
 ## Contact
 
-Email: `davidw@allenai.org`.
+Email: `vanessaxuanliu@gmail.com`.
